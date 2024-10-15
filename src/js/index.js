@@ -9,5 +9,4 @@ import "../styles/index.css";
 import ToDoList from "./component/ToDoList.js";
 
 //render your react application
-ReactDOM.createRoot(document.getElementById('app')).render(<ToDoList/>); 
-
+ReactDOM.createRoot(document.getElementById('app')).render(<ToDoList/>);

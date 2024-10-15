@@ -1,82 +1,37 @@
-body {
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    margin-bottom: 20px;
-  }
-  
-  .form-control {
-    border: 2px solid #6c757d;
-    border-radius: 5px;
-    transition: border-color 0.3s;
-  }
-  
-  .form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  .todo-list {
-    margin-top: 20px;
-  }
-  
-  .todo-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    border: 1px solid #e9ecef;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #ffffff; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .todo-item:hover {
-    background-color: #f1f1f1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  }
-  
-  .btn-close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #dc3545;
-    transition: color 0.3s;
-  }
-  
-  .btn-close:hover {
-    color: #c82333;
-  }
-  
-  .leaf-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .leaf-1, .leaf-2, .leaf-3 {
-    width: 30px;
-    height: 30px;
-    background-color: #6c757d;
-    border-radius: 50%;
-    margin: 0 5px;
-    z-index: -1;
-    transition: transform 0.3s;
-  }
-  
-  .leaf-1:hover, .leaf-2:hover, .leaf-3:hover {
-    transform: scale(1.1);
-  }
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-close {
+  cursor: pointer;
+}
+.todo-list{
+z-index: 3;
+}
+
+.leaf-container{
+z-index: -1;
+}
+.leaf-1{
+width:auto;
+z-index: -1;
+align-content: center;
+
+}
+
+.leaf-2{
+width:auto;
+z-index: -2;
+align-content: center;
+
+}
+
+.leaf-3{
+width:auto;
+z-index: -3;
+display: flex;
+align-content: center;
+
+}
