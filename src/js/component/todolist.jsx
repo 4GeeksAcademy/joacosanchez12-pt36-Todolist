@@ -3,119 +3,42 @@ import React, { useState, useEffect } from "react";
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-  const [hoveredTaskId, setHoveredTaskId] = useState(null);
-  const userName = "jmofuture";
-  const apiUrl = `https://playground.4geeks.com/todo/users/${userName}`;
 
+  
   useEffect(() => {
-    fetch(apiUrl)
-      .then((response) => {
-        if (response.status === 404) {
-          createUser();
-        } else if (!response.ok) {
-          throw new Error("Error al obtener las tareas del usuario");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.todos)) {
-          setTasks(data.todos);
-        } else {
-          console.error("La respuesta de la API:", data.todos);
-        }
-      })
-      .catch((error) => console.error("Error:", error));
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    setTasks(storedTasks);
   }, []);
 
-  const createUser = () => {
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al crear el usuario");
-        }
-        console.log("Usuario creado correctamente");
-      })
-      .catch((error) => console.error("Error al crear el usuario:", error));
-  };
+  
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (newTask.trim() !== "") {
-      const newTodo = { label: newTask, is_done: false };
-      fetch(`https://playground.4geeks.com/todo/todos/${userName}`, {
-        method: "POST",
-        body: JSON.stringify(newTodo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error al agregar la tarea");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setTasks((prevTasks) => [...prevTasks, data]);
-          setNewTask("");
-        })
-        .catch((error) => console.error("Error al agregar tarea:", error));
+      const newTodo = { id: Date.now(), label: newTask, is_done: false };
+      setTasks((prevTasks) => [...prevTasks, newTodo]);
+      setNewTask("");
     }
   };
 
-  const handleDeleteTask = (todoId) => {
-    fetch(`https://playground.4geeks.com/todo/todos/${todoId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al eliminar la tarea");
-        }
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== todoId));
-      })
-      .catch((error) => console.error("Error al eliminar tarea:", error));
+  const handleDeleteTask = (taskId) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
   const handleDeleteAllTasks = () => {
-    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar todas las tareas?");
-    if (confirmDelete) {
-      Promise.all(tasks.map((task) =>
-        fetch(`https://playground.4geeks.com/todo/todos/${task.id}`, {
-          method: "DELETE",
-        })
-      ))
-      .then(() => {
-        setTasks([]);
-        console.log("Todas las tareas han sido eliminadas.");
-      })
-      .catch((error) => console.error("Error al eliminar todas las tareas:", error));
+    if (window.confirm("¿Estás seguro de que deseas eliminar todas las tareas?")) {
+      setTasks([]);
     }
   };
 
-  const handleToggleTask = (todoId, currentStatus) => {
-    const updatedStatus = { is_done: !currentStatus };
-    fetch(`https://playground.4geeks.com/todo/todos/${todoId}`, {
-      method: "PUT",
-      body: JSON.stringify(updatedStatus),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al actualizar la tarea");
-        }
-        setTasks((prevTasks) => 
-          prevTasks.map((task) => 
-            task.id === todoId ? { ...task, is_done: !currentStatus } : task
-          )
-        );
-      })
-      .catch((error) => console.error("Error al marcar la tarea:", error));
+  const handleToggleTask = (taskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, is_done: !task.is_done } : task
+      )
+    );
   };
 
   return (
@@ -141,26 +64,16 @@ const TodoList = () => {
           <li className="list-group-item">No hay tareas, añade una</li>
         ) : (
           tasks.map((task) => (
-            <li
-              key={task.id}
-              className="list-group-item d-flex justify-content-between align-items-center"
-              onMouseEnter={() => setHoveredTaskId(task.id)}
-              onMouseLeave={() => setHoveredTaskId(null)}
-            >
+            <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
               <input
                 type="checkbox"
                 checked={task.is_done}
-                onChange={() => handleToggleTask(task.id, task.is_done)}
+                onChange={() => handleToggleTask(task.id)}
               />
               <span>{task.label}</span>
-              {hoveredTaskId === task.id && (
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteTask(task.id)}
-                >
-                  Eliminar
-                </button>
-              )}
+              <button className="btn btn-danger btn-sm" onClick={() => handleDeleteTask(task.id)}>
+                Eliminar
+              </button>
             </li>
           ))
         )}
