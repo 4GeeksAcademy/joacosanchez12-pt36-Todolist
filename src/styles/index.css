@@ -1,37 +1,59 @@
-.todo-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+body {
+  background-color: #f0f2f5; 
+  font-family: Arial, sans-serif; 
 }
 
-.btn-close {
-  cursor: pointer;
-}
-.todo-list{
-z-index: 3;
-}
-
-.leaf-container{
-z-index: -1;
-}
-.leaf-1{
-width:auto;
-z-index: -1;
-align-content: center;
-
+.container {
+  max-width: 600px; 
+  margin: 0 auto; 
+  padding: 20px; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+  background-color: white; 
 }
 
-.leaf-2{
-width:auto;
-z-index: -2;
-align-content: center;
-
+h1 {
+  color: #333; 
 }
 
-.leaf-3{
-width:auto;
-z-index: -3;
-display: flex;
-align-content: center;
+.btn {
+  border-radius: 5px; 
+}
 
+.input-group {
+  margin-bottom: 15px; 
+}
+
+.list-group-item {
+  background-color: #f9f9f9; 
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  margin-bottom: 5px; 
+  transition: background-color 0.3s; 
+}
+
+.list-group-item:hover {
+  background-color: #eaeaea; 
+}
+
+.checkbox {
+  margin-right: 10px; 
+}
+
+.btn-danger {
+  background-color: #dc3545; 
+  border: none; 
+}
+
+.btn-danger:hover {
+  background-color: #c82333; 
+}
+
+
+.list-group-item .btn-danger {
+  display: none; 
+}
+
+.list-group-item:hover .btn-danger {
+  display: inline; 
 }
